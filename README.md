@@ -1,6 +1,6 @@
 # OOP-Game-Show-App
 
-Project 4
+<h2>Project 4</h2>
 
 browser-based, word guessing game: "Phrase Hunter."
 
