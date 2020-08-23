@@ -33,26 +33,17 @@ class Game {
    * `startGame` starts the game and before the game starts resets the variables - images of hearts back to red and missed var back to 1
    */
   startGame() {
-    // addig event listener on the btn
-    document.addEventListener("keypress", (e) => {
-      if (e.key == "Enter") {
-        document.querySelector("#overlay").style.display = "none";
-      }
-    });
-    btn.addEventListener("click", () => {
-      document.querySelector("#overlay").style.display = "none"; // hide the overlay when the start game btn is pressed
-    });
     // keyboard
     const keys = document.querySelectorAll(".key");
-
     [...keys].map((key) => {
       key.classList.remove("wrong", "chosen");
       key.disabled = false;
     });
+
     // hearts
     const score = document.querySelectorAll("#scoreboard img");
     score.forEach((item) => (item.src = "images/liveHeart.png"));
-    this.missed = 1;
+    this.missed = 0;
 
     // phrase
     this.activePhrase = new Phrase(game.getRandomPhrase());
@@ -82,7 +73,7 @@ class Game {
         // the key doesnt exists add the wrong clas to the key letter and removeLife, checkforWin
         key.classList.add("wrong");
         this.removeLife();
-        this.missed += 1;
+        this.missed += 0;
         this.checkForWin(li);
       } else {
         // the key exists then checkLetter and checkForWin
@@ -103,11 +94,11 @@ class Game {
             k.textContent == e.key ? k.classList.add("wrong") : null
           );
           this.removeLife();
-          this.missed += 1;
-          this.checkForWin(li);
         } else {
           // the key exists then checkLetter and checkForWin
-          [...li].map((list) => this.activePhrase.checkLetter(e.key, list));
+          [...li].map((list) =>
+            this.activePhrase.checkLetter(e.key.toLowerCase(), list)
+          );
           this.checkForWin(li);
         }
       }
@@ -119,7 +110,12 @@ class Game {
    */
   removeLife() {
     const score = document.querySelectorAll("#scoreboard img");
-    score[score.length - this.missed].src = "images/lostHeart.png";
+    score[score.length - (this.missed + 1)].src = "images/lostHeart.png";
+    this.missed += 1;
+    // if lost
+    if (this.missed === 5) {
+      this.gameOver("You Lost");
+    }
   }
 
   /**
@@ -134,10 +130,6 @@ class Game {
       )
     ) {
       this.gameOver("You Won");
-    }
-    // if lost
-    if (this.missed === 6) {
-      this.gameOver("You Lost");
     }
   }
 

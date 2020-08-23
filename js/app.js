@@ -7,7 +7,23 @@ const game = new Game();
 
 // start game
 const btn = document.querySelector("#btn__reset");
-btn.addEventListener("click", game.startGame());
+
+// event listener on btn
+btn.addEventListener("click", () => {
+  document.querySelector("#overlay").style.display = "none"; // hide the overlay when the start game btn is pressed
+  game.startGame();
+});
+
+// event listener on enter key press
+document.addEventListener("keypress", (e) => {
+  // check if overlay is hidden to allow enter key press
+  if (document.querySelector("#overlay").style.display == "") {
+    if (e.key == "Enter") {
+      document.querySelector("#overlay").style.display = "none"; // hide the overlay when the start game btn is pressed
+      game.startGame();
+    }
+  }
+});
 
 // keyboard
 const keyboard = document.querySelector("#qwerty");
