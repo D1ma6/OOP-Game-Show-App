@@ -141,5 +141,12 @@ class Game {
     const msg = document.querySelector("#game-over-message");
     msg.textContent = text;
     this.startGame();
+    if (text == "You Won") {
+      document.querySelector("#overlay").classList.remove("loss");
+      document.querySelector("#overlay").classList.add("win");
+    } else {
+      document.querySelector("#overlay").classList.remove("win");
+      document.querySelector("#overlay").classList.add("loss");
+    }
   }
 }
